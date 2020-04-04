@@ -25,8 +25,14 @@ function postTask(task) {
   $.ajax({
     type: 'POST',
     url: '/task',
-    data: dataForServer,
-  }); //taking data from he client and sends it to the server
+    data: dataForServer, //taking data from he client and sends it to the server
+  })
+    .then((response) => {
+      console.log(response);
+    })
+    .catch((err) => {
+      console.warn(err);
+    });
 }
 
 function clearTask() {
