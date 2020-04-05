@@ -7,7 +7,7 @@ function init() {
 
   $('#js-submit-task').on('submit', submitTask);
   $('.js-task-out').on('click', '.js-btn-delete', deleteTask);
-  //   $('.js-task-out').on('click', '.js-btn-task-complete', completeTask);
+  $('.js-task-out').on('click', '.js-btn-task-complete', completeTask);
 
   getTask();
 }
@@ -81,34 +81,36 @@ function deleteTask() {
     });
 }
 
-// function completeTask() {
-//   const taskComplete = {
-//     taskComplete: $(this).parent().data('taskComplete'),
-//   };
-//   const taskID = $(this).parent().data('taskComplete');
-//   console.log(taskID);
-//   $.ajax({
-//     type: 'PUT',
-//     url: `/task/${taskID}`,
-//     data: taskComplete,
-//   })
-//     .then((response) => {
-//       tasks = response;
-//       getTask();
-//     })
-//     .catch((err) => {
-//       console.warn(err);
-//     });
-// }
+function completeTask() {
+  console.log('Task Complete');
+  const taskComplete = {
+    taskComplete: $(this).parent().data('taskComplete'),
+  };
+  const taskID = $(this).parent().data('taskComplete');
+  console.log(taskID);
+
+  $.ajax({
+    type: 'PUT',
+    url: `/task/${taskID}`,
+    data: taskComplete,
+  })
+    .then((response) => {
+      tasks = response;
+      getTask();
+    })
+    .catch((err) => {
+      console.warn(err);
+    });
+}
 
 function renderTask() {
   $('.js-task-out').empty();
   for (let task of tasks) {
     $('.js-task-out').append(`
-    <div data-id=${task.id} >
+    <div data-id=${task.id} data-taskComplete=${task.taskComplete}>
     <span>${task.taskDo}</span> 
     <button class="js-btn-delete">Delete</button>
-   
+    <button class="js-btn-task-complete">Task Complete</button>
     </div>`);
 
     if (task.taskComplete === true) {

@@ -36,13 +36,11 @@ router.get('/', (req, res) => {
     });
 });
 
-// router.put('/:id', (req, res) => {
-//   console.log(req.params.id);
-//   console.log(req.body);
-
-//   const queryString = `UPDATE 'task' SET`
-//   res.sendStatus(200);
-// });
+router.put('/:id', (req, res) => {
+  console.log(req.params.id);
+  console.log(req.body);
+  res.sendStatus(200);
+});
 
 router.delete('/:id', (req, res) => {
   console.log(req.params.id);
