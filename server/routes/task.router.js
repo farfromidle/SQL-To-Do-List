@@ -5,7 +5,7 @@ const pool = require('../modules/pool');
 router.post('/', (req, res) => {
   //   console.log(req.body);
 
-  const queryString = `INSERT INTO "weekend-to-do-app" ("task") VALUES ($1);`;
+  const queryString = `INSERT INTO "task" ("taskDo") VALUES ($1);`;
   //unsure why this isn't appending
   console.log(req.body.task);
 
@@ -28,7 +28,7 @@ router.get('/', (req, res) => {
     .then((response) => {
       console.log(response.rows);
       //response object is big. Pulls from the data inside this object
-      res.sendStatus(response.rows);
+      res.send(response.rows);
     })
     .catch((err) => {
       console.warn(err);
@@ -36,9 +36,29 @@ router.get('/', (req, res) => {
     });
 });
 
-router.put('/', (req, res) => {});
+// router.put('/:id', (req, res) => {
+//   console.log(req.params.id);
+//   console.log(req.body);
 
-router.delete('/', (req, res) => {});
+//   const queryString = `UPDATE 'task' SET`
+//   res.sendStatus(200);
+// });
+
+router.delete('/:id', (req, res) => {
+  console.log(req.params.id);
+  const queryString = `DELETE FROM 'task' WHERE id=$1;`;
+
+  pool
+    .query(queryString, [req.params.id])
+    .then((response) => {
+      res.sendStatus(200);
+    })
+    .catch((err) => {
+      console.warn(err);
+      res.send(500);
+    });
+  res.send(200);
+});
 
 module.exports = router;
 //import this router

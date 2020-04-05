@@ -6,7 +6,8 @@ function init() {
   console.log('Its alive');
 
   $('#js-submit-task').on('submit', submitTask);
-  $('.js-task-out').on('click', deleteTask);
+  $('.js-task-out').on('click', '.js-btn-delete', deleteTask);
+  //   $('.js-task-out').on('click', '.js-btn-task-complete', completeTask);
 
   getTask();
 }
@@ -17,8 +18,7 @@ function submitTask(event) {
 
   //capture input
   const taskInput = $('#js-input-list').val();
-
-  //   postTask(taskInput); //gives the task input
+  //postTask(taskInput); //gives the task input
 
   clearTask(); // remember to call them once I pull out the thing
 }
@@ -60,21 +60,63 @@ function getTask() {
 function deleteTask() {
   const taskID = $(this).parent().data('id');
   console.log(taskID);
+
+  $.ajax({
+    type: 'DELETE',
+    url: `/task/${taskID}`,
+  })
+    .then((response) => {
+      tasks = response;
+      getTask();
+      renderTask();
+      console.log(response);
+    })
+    .catch((err) => {
+      console.warn(err);
+    });
 }
+
+// function completeTask() {
+//   const taskComplete = {
+//     taskComplete: $(this).parent().data('taskComplete'),
+//   };
+//   const taskID = $(this).parent().data('taskComplete');
+//   console.log(taskID);
+//   $.ajax({
+//     type: 'PUT',
+//     url: `/task/${taskID}`,
+//     data: taskComplete,
+//   })
+//     .then((response) => {
+//       tasks = response;
+//       getTask();
+//     })
+//     .catch((err) => {
+//       console.warn(err);
+//     });
+// }
 
 function clearTask() {
   $('#js-input-list').val(''); //clears input after entering so it doesn't show multiple times
 }
 
 function renderTask() {
-  $('.js-input-list').empty();
+  $('.js-task-out').empty();
   for (let task of tasks) {
-    $('#js-input-list').append(`
-    <div data-id=${task.id}>
+    $('.js-task-out').append(`
+    <div data-id=${task.id} >
     <span>${task.taskDo}</span> 
     <button class="js-btn-delete">Delete</button>
+   
     </div>`);
+
+    if (task.taskComplete === true) {
+      const $el = $('.js-task-out').children().last();
+      $el.addClass('taskComplete');
+    }
   }
 }
 
+// <button class="js-btn-task-complete">Task Complete</button> (goes in render task)
+// data-taskComplete=${task.taskComplete} Need this for the task to complete properly add back to render task id
 //taskDo is the property in SQL for the task name
