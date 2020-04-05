@@ -7,6 +7,7 @@ function init() {
 
   $('#js-submit-task').on('submit', submitTask);
   $('.js-task-out').on('click', deleteTask);
+
   getTask();
 }
 
@@ -26,6 +27,7 @@ function postTask(task) {
   const dataForServer = {
     task: task,
   }; //prepares the data, equals an object or the task. Value taken off taskInput. saved in task Input
+
   $.ajax({
     type: 'POST',
     url: '/task',
@@ -69,8 +71,10 @@ function renderTask() {
   for (let task of tasks) {
     $('#js-input-list').append(`
     <div data-id=${task.id}>
-    <span>${task.taskDo}</span>
+    <span>${task.taskDo}</span> 
     <button class="js-btn-delete">Delete</button>
     </div>`);
   }
 }
+
+//taskDo is the property in SQL for the task name

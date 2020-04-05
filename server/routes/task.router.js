@@ -27,7 +27,7 @@ router.get('/', (req, res) => {
     .query(queryString)
     .then((response) => {
       console.log(response.rows);
-
+      //response object is big. Pulls from the data inside this object
       res.sendStatus(response.rows);
     })
     .catch((err) => {
