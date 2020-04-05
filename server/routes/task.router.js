@@ -7,7 +7,7 @@ router.post('/', (req, res) => {
 
   const queryString = `INSERT INTO "weekend-to-do-app" ("taskDo") VALUES ($1);`;
   //unsure why this isn't appending
-  console.log(req.body.taskDo);
+  console.log(req.body.task);
 
   pool
     .query(queryString, [req.body.taskDo])
