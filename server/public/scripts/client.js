@@ -74,6 +74,7 @@ function deleteTask() {
       tasks = response;
       getTask();
       renderTask();
+
       console.log(response);
     })
     .catch((err) => {

@@ -37,9 +37,28 @@ router.get('/', (req, res) => {
 });
 
 router.put('/:id', (req, res) => {
-  console.log(req.params.id);
-  console.log(req.body);
-  res.sendStatus(200);
+  //  console.log(req.params.id);
+  //  console.log(req.body);
+  //const newTask = !req.body.taskComplete;
+  //   console.log(req.body.taskComplete);
+  let newTask = true;
+
+  if (req.body.taskComplete == 'true') {
+    newTask = false;
+  } else {
+    newTask = true;
+  }
+  const queryString = `UPDATE 'task' SET 'taskComplete'=$1 WHERE id=$2;`;
+
+  pool
+    .query(queryString, [newTask, req.params.id])
+    .then((response) => {
+      res.sendStatus(200);
+    })
+    .catch((err) => {
+      console.warn(err);
+      res.send(500);
+    });
 });
 
 router.delete('/:id', (req, res) => {
