@@ -18,9 +18,14 @@ function submitTask(event) {
 
   //capture input
   const taskInput = $('#js-input-list').val();
-  //postTask(taskInput); //gives the task input
+  postTask(taskInput); //gives the task input
+  //   console.log(taskInput);
 
   clearTask(); // remember to call them once I pull out the thing
+}
+
+function clearTask() {
+  $('#js-input-list').val(''); //clears input after entering so it doesn't show multiple times
 }
 
 function postTask(task) {
@@ -95,10 +100,6 @@ function deleteTask() {
 //       console.warn(err);
 //     });
 // }
-
-function clearTask() {
-  $('#js-input-list').val(''); //clears input after entering so it doesn't show multiple times
-}
 
 function renderTask() {
   $('.js-task-out').empty();
