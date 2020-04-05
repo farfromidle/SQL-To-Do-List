@@ -5,12 +5,12 @@ const pool = require('../modules/pool');
 router.post('/', (req, res) => {
   //   console.log(req.body);
 
-  const queryString = `INSERT INTO "weekend-to-do-app" ("taskDo") VALUES ($1);`;
+  const queryString = `INSERT INTO "weekend-to-do-app" ("task") VALUES ($1);`;
   //unsure why this isn't appending
   console.log(req.body.task);
 
   pool
-    .query(queryString, [req.body.taskDo])
+    .query(queryString, [req.body.task])
     .then((response) => {
       res.sendStatus(201);
     })
@@ -21,7 +21,7 @@ router.post('/', (req, res) => {
 });
 
 router.get('/', (req, res) => {
-  const queryString = `SELECT * FROM "taskDo"`;
+  const queryString = `SELECT * FROM "task"`;
 
   pool
     .query(queryString)
