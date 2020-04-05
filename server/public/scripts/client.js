@@ -24,10 +24,6 @@ function submitTask(event) {
   clearTask(); // remember to call them once I pull out the thing
 }
 
-function clearTask() {
-  $('#js-input-list').val(''); //clears input after entering so it doesn't show multiple times
-}
-
 function postTask(task) {
   const dataForServer = {
     task: task,
@@ -102,6 +98,10 @@ function completeTask() {
     .catch((err) => {
       console.warn(err);
     });
+}
+
+function clearTask() {
+  $('#js-input-list').val(''); //clears input after entering so it doesn't show multiple times
 }
 
 function renderTask() {
