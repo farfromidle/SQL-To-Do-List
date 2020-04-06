@@ -5,7 +5,7 @@ const pool = require('../modules/pool');
 router.post('/', (req, res) => {
   //   console.log(req.body);
 
-  const queryString = `INSERT INTO "task" ("taskDo") VALUES ($1);`;
+  const queryString = `INSERT INTO 'task' ("taskDo") VALUES ($1, false);`;
   //unsure why this isn't appending
   console.log(req.body.task);
 
@@ -15,7 +15,6 @@ router.post('/', (req, res) => {
       res.sendStatus(201);
     })
     .catch((err) => {
-      console.warn(err);
       res.send(500);
     });
 });
@@ -31,7 +30,6 @@ router.get('/', (req, res) => {
       res.send(response.rows);
     })
     .catch((err) => {
-      console.warn(err);
       res.send(500);
     });
 });
@@ -41,14 +39,15 @@ router.put('/:id', (req, res) => {
   //  console.log(req.body);
   //const newTask = !req.body.taskComplete;
   //   console.log(req.body.taskComplete);
-  let newTask = true;
+  let newTask = false;
 
-  if (req.body.taskComplete == 'true') {
-    newTask = false;
-  } else {
-    newTask = true;
-  }
-  const queryString = `UPDATE 'task' SET 'taskComplete'=$1 WHERE id=$2;`;
+  if (req.body.taskComplete === 'true') newTask = true;
+  //    {
+  //     newTask = false;
+  //   } else {
+  //     newTask = true;
+  //   }
+  const queryString = `UPDATE 'task' SET 'taskComplete'=$1 WHERE 'id'=$2;`;
 
   pool
     .query(queryString, [newTask, req.params.id])
@@ -56,14 +55,13 @@ router.put('/:id', (req, res) => {
       res.sendStatus(200);
     })
     .catch((err) => {
-      console.warn(err);
       res.send(500);
     });
 });
 
 router.delete('/:id', (req, res) => {
   console.log(req.params.id);
-  const queryString = `DELETE FROM 'task' WHERE id=$1;`;
+  const queryString = `DELETE FROM 'task' WHERE 'id'=$1;`;
 
   pool
     .query(queryString, [req.params.id])
